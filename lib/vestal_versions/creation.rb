@@ -36,7 +36,16 @@ module VestalVersions
 
         # Creates an initial version upon creation of the parent record.
         def create_initial_version
-					versions.create({:modifications => self.attributes, :number => 1, :tag => "created"})
+					# Prepare Version.
+					version_params = {:modifications => self.attributes, :number => 1, :tag => "created"}
+	
+					# Determine User - if there is one.
+					if self.attributes['created_by'].present?
+						user_params = {:user_id => self.attributes['created_by'], :user_type => "User"}
+						version_params.merge!(user_params)
+					end
+	
+					versions.create(version_params)
           reset_version_changes
           reset_version
         end
