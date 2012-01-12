@@ -36,7 +36,7 @@ module VestalVersions
 
         # Creates an initial version upon creation of the parent record.
         def create_initial_version
-					versions.create({:modifications => self.attributes, :number => 1})
+					versions.create({:modifications => self.attributes, :number => 1, :tag => "creation"})
           reset_version_changes
           reset_version
         end
